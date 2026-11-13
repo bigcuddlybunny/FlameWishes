@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BLUEFLAME BUNNY ARMORY // WISHLIST SYSTEM</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Orbitron, Rajdhani, JetBrains Mono & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700;800&family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brs: {
+              void: '#020408',
+              abyss: '#070b14',
+              panel: '#0a101d',
+              cyan: '#00f0ff',
+              soul: '#0095ff',
+              ice: '#e0f7ff',
+              sky: '#38bdf8'
+            }
+          },
+          fontFamily: {
+            display: ['Orbitron', 'sans-serif'],
+            tech: ['Rajdhani', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* =====================================================================
+       STRICT BLACK ROCK SHOOTER PALETTE & CUSTOM MOTIFS
+       Zero warm tones: strictly #020408 void, #ffffff stark white,
+       and #00f0ff / #0095ff electric soul-blue flames.
+       ===================================================================== */
+    :root {
+      --void: #020408;
+      --abyss: #070b14;
+      --cyan: #00f0ff;
+      --soul: #0095ff;
+      --ice: #e0f7ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #020408;
+      color: #f8fafc;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(circle at 18% 12%, rgba(0, 240, 255, 0.09) 0%, transparent 42%),
+        radial-gradient(circle at 85% 80%, rgba(0, 149, 255, 0.08) 0%, transparent 48%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
+    }
+
+    /* Monochrome Black & White Checkered Accent Strip */
+    .brs-checker-bar {
+      height: 10px;
+      background-image:
+        linear-gradient(45deg, #ffffff 25%, transparent 25%),
+        linear-gradient(-45deg, #ffffff 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #ffffff 75%),
+        linear-gradient(-45deg, transparent 75%, #ffffff 75%);
+      background-size: 10px 10px;
+      background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+      background-color: #020408;
+    }
+
+    /* Diagonal Monochrome Hazard/Tactical Stripe */
+    .brs-stripes {
+      background: repeating-linear-gradient(
+        -45deg,
+        #020408,
+        #020408 8px,
+        #ffffff 8px,
+        #ffffff 10px
+      );
+    }
+
+    /* Stark White Razor Border + Electric Cyan Outer Glow */
+    .brs-frame {
+      background: rgba(7, 11, 20, 0.92);
+      border: 1.5px solid #ffffff;
+      box-shadow:
+        0 0 0 1px #020408,
+        0 0 22px rgba(0, 240, 255, 0.14),
+        inset 0 0 24px rgba(0, 149, 255, 0.06);
+      backdrop-filter: blur(10px);
+    }
+
+    .brs-card {
+      background: linear-gradient(165deg, #0b1221 0%, #04070e 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    .brs-card:hover {
+      transform: translateY(-4px);
+      border-color: #00f0ff;
+      box-shadow:
+        0 10px 30px -8px rgba(0, 240, 255, 0.38),
+        0 0 14px rgba(0, 149, 255, 0.35);
+    }
+
+    .brs-card.unlocked-card {
+      border-color: #00f0ff;
+      background: linear-gradient(165deg, rgba(0, 240, 255, 0.12) 0%, #040812 100%);
+      box-shadow: 0 0 24px rgba(0, 240, 255, 0.22);
+    }
+
+    /* Electric Soul-Blue Eye Flame Animation */
+    @keyframes soulFlameFlicker {
+      0%, 100% {
+        transform: scale(1) skewX(-2deg) translateY(0);
+        filter: drop-shadow(0 0 8px #00f0ff) drop-shadow(0 0 18px #0095ff);
+      }
+      35% {
+        transform: scale(1.06, 1.12) skewX(3deg) translateY(-2px);
+        filter: drop-shadow(0 0 12px #00f0ff) drop-shadow(0 0 26px #0095ff);
+      }
+      70% {
+        transform: scale(0.96, 1.04) skewX(-4deg) translateY(-1px);
+        filter: drop-shadow(0 0 10px #38bdf8) drop-shadow(0 0 20px #00f0ff);
+      }
+    }
+
+    .soul-flame-anim {
+      transform-origin: 42% 65%;
+      animation: soulFlameFlicker 1.9s infinite ease-in-out;
+    }
+
+    @keyframes floatMascot {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .mascot-float {
+      animation: floatMascot 4.2s ease-in-out infinite;
+    }
+
+    /* Custom Scrollbar (Pure Cyan & Void) */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020408;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border: 1px solid #00f0ff;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0095ff;
+    }
+
+    /* Buttons */
+    .btn-soul {
+      background: linear-gradient(135deg, #00f0ff 0%, #0095ff 100%);
+      color: #020408;
+      font-weight: 800;
+      border: 1.5px solid #ffffff;
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.45);
+      transition: all 0.18s ease;
+    }
+    .btn-soul:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 24px rgba(0, 240, 255, 0.75);
+      transform: translateY(-1px);
+    }
+
+    .btn-void {
+      background: #070b14;
+      color: #ffffff;
+      border: 1.5px solid rgba(255, 255, 255, 0.8);
+      transition: all 0.18s ease;
+    }
+    .btn-void:hover {
+      border-color: #00f0ff;
+      color: #00f0ff;
+      box-shadow: 0 0 14px rgba(0, 240, 255, 0.3);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-cyan-400 selection:text-slate-950">
+
+  <!-- Full-Screen Soul-Blue Particle Canvas (Ambient + Unlock Burst) -->
+  <canvas id="soulParticleCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+  <!-- Top Monochrome Checkered Accent -->
+  <div class="brs-checker-bar w-full border-b border-white/40"></div>
+
+  <!-- Squad / Gift-Giver Banner (Visible when viewing shared link or previewing squad mode) -->
+  <div id="squadBanner" class="hidden bg-cyan-400 text-slate-950 border-b-2 border-white px-4 py-2.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5 font-display text-xs sm:text-sm font-black tracking-wider uppercase">
+        <span class="inline-block w-3 h-3 bg-slate-950 rotate-45"></span>
+        <span>SQUAD RECON MODE // GIFT-GIVER VIEW ACTIVE — CLAIM DROPS OR CLONE THIS ARMORY</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="btnCloneArmory" onclick="cloneSharedToMyArmory()" class="px-3 py-1.5 rounded-lg bg-slate-950 text-cyan-300 border border-white font-mono text-xs font-bold hover:bg-slate-900 transition cursor-pointer">
+          ✦ CLONE TO MY ARMORY
+        </button>
+        <button id="btnExitSquadPreview" onclick="exitSquadPreview()" class="hidden px-3 py-1.5 rounded-lg bg-white text-slate-950 border border-slate-950 font-mono text-xs font-bold hover:bg-cyan-100 transition cursor-pointer">
+          EXIT PREVIEW
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Header / Hero Armory HUD -->
+  <header class="relative border-b-2 border-white bg-[#04070f]/95">
+    <!-- Decorative Star Watermark -->
+    <svg class="hidden lg:block absolute right-8 top-4 w-56 h-56 opacity-[0.06] pointer-events-none text-white" viewBox="0 0 100 100" fill="currentColor">
+      <polygon points="50,2 63,36 98,36 70,58 80,93 50,72 20,93 30,58 2,36 37,36" />
+    </svg>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+
+        <!-- Left: Custom Black Rock Shooter Gamer Bunny Mascot + Editable Title -->
+        <div class="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+          <!-- Custom SVG Mascot: Jet-black twin-tail hood, white bunny ears, white chest star, headset & blazing left-eye soul-blue flame -->
+          <div class="relative w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-2xl brs-frame p-1.5 flex items-center justify-center overflow-visible mascot-float">
+            <svg viewBox="0 0 200 200" class="w-full h-full overflow-visible" xmlns="http://www.w3.org/2000/svg" aria-label="Blueflame Bunny Mascot">
+              <defs>
+                <radialGradient id="eyeFlameGrad" cx="50%" cy="60%" r="55%">
+                  <stop offset="0%" stop-color="#ffffff" />
+                  <stop offset="35%" stop-color="#00f0ff" />
+                  <stop offset="75%" stop-color="#0095ff" />
+                  <stop offset="100%" stop-color="#0095ff" stop-opacity="0" />
+                </radialGradient>
+                <filter id="cyanGlow" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+
+              <!-- Flowing Twin-Tails (Jet Black with Crisp White Rim) -->
+              <path d="M52,95 C22,110 10,148 18,184 C28,166 42,154 55,146 Z" fill="#050811" stroke="#ffffff" stroke-width="2.5" />
+              <path d="M148,95 C178,110 190,148 182,184 C172,166 158,154 145,146 Z" fill="#050811" stroke="#ffffff" stroke-width="2.5" />
+
+              <!-- Crisp White Bunny Ears with Black Inner Cutouts -->
+              <path d="M74,64 L62,12 C60,5 72,4 78,14 L92,58 Z" fill="#ffffff" stroke="#020408" stroke-width="2.5" />
+              <path d="M75,54 L68,21 L84,52 Z" fill="#070b14" />
+              <path d="M126,64 L138,12 C140,5 128,4 122,14 L108,58 Z" fill="#ffffff" stroke="#020408" stroke-width="2.5" />
+              <path d="M125,54 L132,21 L116,52 Z" fill="#070b14" />
+
+              <!-- Tactical Jacket Torso with Five-Pointed White Star -->
+              <path d="M62,142 L138,142 L150,192 L50,192 Z" fill="#050811" stroke="#ffffff" stroke-width="2.5" />
+              <!-- White Collar / Zipper V -->
+              <path d="M84,142 L100,164 L116,142" fill="none" stroke="#ffffff" stroke-width="2.5" />
+              <!-- Iconic 5-Pointed White Star on Chest -->
+              <polygon points="122,158 125,166 134,166 127,171 130,179 122,174 114,179 117,171 110,166 119,166" fill="#ffffff" />
+
+              <!-- Jet-Black Hood & Face -->
+              <circle cx="100" cy="100" r="44" fill="#050811" stroke="#ffffff" stroke-width="2.5" />
+              <!-- Pale Porcelain Face -->
+              <path d="M68,94 C68,122 82,136 100,136 C118,136 132,122 132,94 C120,86 80,86 68,94 Z" fill="#f8fafc" />
+              <!-- Sharp Bangs -->
+              <path d="M64,96 L78,76 L88,97 L100,74 L112,97 L122,76 L136,96 C132,66 68,66 64,96 Z" fill="#050811" stroke="#ffffff" stroke-width="1.5" />
+
+              <!-- Gaming Headset with Glowing Soul-Blue Cyan Rings -->
+              <path d="M54,96 C54,62 146,62 146,96" fill="none" stroke="#ffffff" stroke-width="4.5" />
+              <rect x="46" y="84" width="14" height="30" rx="6" fill="#050811" stroke="#ffffff" stroke-width="2" />
+              <circle cx="53" cy="99" r="4" fill="#00f0ff" filter="url(#cyanGlow)" />
+              <rect x="140" y="84" width="14" height="30" rx="6" fill="#050811" stroke="#ffffff" stroke-width="2" />
+              <circle cx="147" cy="99" r="4" fill="#00f0ff" filter="url(#cyanGlow)" />
+              <!-- Headset Mic Boom -->
+              <path d="M52,112 Q64,128 84,126" fill="none" stroke="#00f0ff" stroke-width="2" />
+
+              <!-- Right Eye (Calm Ice-Cyan) -->
+              <ellipse cx="115" cy="106" rx="5.5" ry="7" fill="#020408" />
+              <circle cx="115" cy="105" r="3" fill="#00f0ff" />
+              <circle cx="113.5" cy="103" r="1.2" fill="#ffffff" />
+
+              <!-- Left Eye (Blazing Electric Soul-Blue Flame!) -->
+              <ellipse cx="84" cy="106" rx="6" ry="7.5" fill="#020408" />
+              <circle cx="84" cy="106" r="4" fill="#00f0ff" filter="url(#cyanGlow)" />
+              <g class="soul-flame-anim">
+                <path d="M84,111 C72,108 60,94 42,84 C56,84 65,88 72,92 C60,76 48,66 30,60 C52,60 68,72 78,86 C75,72 72,58 64,46 C78,58 86,74 88,92 C92,98 90,110 84,111 Z"
+                      fill="url(#eyeFlameGrad)" filter="url(#cyanGlow)" />
+                <path d="M84,109 C74,104 62,92 48,84 C64,86 76,94 84,104 Z" fill="#ffffff" opacity="0.9" />
+              </g>
+
+              <!-- Subtle Stoic Mouth -->
+              <path d="M95,123 Q100,125 105,123" fill="none" stroke="#020408" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <!-- Corner Star Badge -->
+            <span class="absolute -top-2.5 -right-2.5 w-7 h-7 rounded-lg bg-cyan-400 text-slate-950 border-2 border-white flex items-center justify-center font-black text-sm shadow-[0_0_12px_#00f0ff]">
+              ★
+            </span>
+          </div>
+
+          <!-- Title & Tactical Subtitle -->
+          <div>
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-white/10 border border-white/40 text-cyan-300 font-mono text-[11px] tracking-widest uppercase mb-2">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+              <span>SYS.UNIT // BRS-00 // SOUL-FLAME ACTIVE</span>
+            </div>
+
+            <div class="flex items-center justify-center sm:justify-start gap-2">
+              <h1 id="armoryTitleDisplay"
+                  contenteditable="true"
+                  spellcheck="false"
+                  title="Click to rename your Armory"
+                  class="font-display text-2xl sm:text-3xl lg:text-4xl font-black tracking-wider text-white uppercase outline-none focus:text-cyan-300 focus:underline decoration-cyan-400 cursor-text drop-shadow-[0_0_12px_rgba(0,240,255,0.45)]">
+                BLUEFLAME BUNNY ARMORY
+              </h1>
+              <span id="editTitleHint" class="text-cyan-400/80 text-xs font-mono hidden sm:inline">[✎]</span>
+            </div>
+
+            <p class="text-slate-300 text-xs sm:text-sm font-mono mt-1.5 max-w-xl">
+              Tactical gear manifest, cyber-peripherals &amp; priority loot drops forged in electric soul-fire.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Currency Switcher + Primary Action Bar -->
+        <div class="flex flex-wrap items-center justify-center lg:justify-end gap-2.5">
+          <!-- Currency Selector -->
+          <div class="flex items-center bg-[#070b14] border border-white rounded-xl p-1">
+            <button onclick="setCurrency('€')" data-curr="€" class="curr-btn px-2.5 py-1 rounded-lg font-mono text-xs font-bold transition cursor-pointer">€ EUR</button>
+            <button onclick="setCurrency('$')" data-curr="$" class="curr-btn px-2.5 py-1 rounded-lg font-mono text-xs font-bold transition cursor-pointer">$ USD</button>
+            <button onclick="setCurrency('£')" data-curr="£" class="curr-btn px-2.5 py-1 rounded-lg font-mono text-xs font-bold transition cursor-pointer">£ GBP</button>
+          </div>
+
+          <button onclick="openShareModal()" class="btn-void px-3.5 py-2.5 rounded-xl font-display text-xs font-bold tracking-wider flex items-center gap-2 cursor-pointer">
+            <span>★</span>
+            <span>SHARE / SQUAD</span>
+          </button>
+
+          <button id="btnAddLoot" onclick="openItemModal()" class="btn-soul px-4 py-2.5 rounded-xl font-display text-xs tracking-wider flex items-center gap-2 cursor-pointer">
+            <span class="text-base leading-none">+</span>
+            <span>ADD LOOT</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live HUD Stat Counters -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6">
+        <!-- Counter 1: Total Loot -->
+        <div class="brs-frame rounded-xl p-3.5 sm:p-4 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[11px] uppercase tracking-widest text-cyan-300">TOTAL LOOT</span>
+            <span class="text-white text-xs font-mono">★ [01]</span>
+          </div>
+          <div id="hudTotalItems" class="font-display text-2xl sm:text-3xl font-black text-white mt-1">0</div>
+          <div class="text-[11px] font-mono text-slate-400 mt-0.5">REGISTERED TARGETS</div>
+        </div>
+
+        <!-- Counter 2: Est. Mana / Cost -->
+        <div class="brs-frame rounded-xl p-3.5 sm:p-4 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[11px] uppercase tracking-widest text-cyan-300">EST. MANA / COST</span>
+            <span class="text-cyan-400 text-xs font-mono">◈ [02]</span>
+          </div>
+          <div id="hudTotalCost" class="font-display text-2xl sm:text-3xl font-black text-cyan-300 mt-1 drop-shadow-[0_0_8px_rgba(0,240,255,0.4)]">€0.00</div>
+          <div id="hudRemainingCost" class="text-[11px] font-mono text-slate-400 mt-0.5">REMAINING: €0.00</div>
+        </div>
+
+        <!-- Counter 3: Unlocked -->
+        <div class="brs-frame rounded-xl p-3.5 sm:p-4 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[11px] uppercase tracking-widest text-cyan-300">UNLOCKED ✦</span>
+            <span class="text-white text-xs font-mono">✦ [03]</span>
+          </div>
+          <div id="hudUnlockedCount" class="font-display text-2xl sm:text-3xl font-black text-white mt-1">0 / 0</div>
+          <div class="w-full h-1.5 bg-slate-900 rounded-full mt-1.5 overflow-hidden border border-white/30">
+            <div id="hudProgressBar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Counter 4: Soul Flame Intensity -->
+        <div class="brs-frame rounded-xl p-3.5 sm:p-4 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-[11px] uppercase tracking-widest text-cyan-300">SOUL RESONANCE</span>
+            <span class="text-cyan-400 text-xs font-mono">❖ [04]</span>
+          </div>
+          <div id="hudTopPriority" class="font-display text-2xl sm:text-3xl font-black text-cyan-400 mt-1">0 MAX</div>
+          <div class="text-[11px] font-mono text-slate-400 mt-0.5">CRITICAL PRIORITY DROPS</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter, Search & Backup Controls -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="brs-frame rounded-2xl p-4 mb-6">
+      <div class="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between">
+        <!-- Search Input -->
+        <div class="relative flex-1">
+          <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan-400 font-mono text-sm">⌕</span>
+          <input id="searchInput" type="text" placeholder="SCAN ARMORY BY NAME OR TACTICAL NOTES..."
+                 oninput="renderArmory()"
+                 class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-[#020408] border border-white/70 text-white placeholder-slate-500 font-mono text-xs focus:outline-none focus:border-cyan-400 focus:shadow-[0_0_12px_rgba(0,240,255,0.3)]" />
+        </div>
+
+        <!-- Status & Sort Selects -->
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5">
+          <select id="statusFilter" onchange="renderArmory()"
+                  class="px-3 py-2.5 rounded-xl bg-[#020408] border border-white/70 text-white font-mono text-xs focus:outline-none focus:border-cyan-400 cursor-pointer">
+            <option value="all">STATUS: ALL DROPS</option>
+            <option value="locked">STATUS: LOCKED TARGETS</option>
+            <option value="unlocked">STATUS: UNLOCKED ✦</option>
+          </select>
+
+          <select id="sortSelect" onchange="renderArmory()"
+                  class="px-3 py-2.5 rounded-xl bg-[#020408] border border-white/70 text-white font-mono text-xs focus:outline-none focus:border-cyan-400 cursor-pointer">
+            <option value="priority">SORT: SOUL PRIORITY</option>
+            <option value="price-desc">SORT: MANA HIGH → LOW</option>
+            <option value="price-asc">SORT: MANA LOW → HIGH</option>
+            <option value="newest">SORT: NEWEST ADDED</option>
+          </select>
+
+          <!-- JSON Backup Export / Import -->
+          <div id="backupControls" class="flex items-center gap-1.5">
+            <button onclick="exportJSON()" title="Export JSON Backup" class="btn-void px-3 py-2.5 rounded-xl font-mono text-xs font-bold cursor-pointer">
+              ↓ JSON
+            </button>
+            <label title="Import JSON Backup" class="btn-void px-3 py-2.5 rounded-xl font-mono text-xs font-bold cursor-pointer">
+              ↑ JSON
+              <input type="file" id="importJsonInput" accept=".json" onchange="importJSON(event)" class="hidden" />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div id="categoryTabs" class="flex items-center gap-2 overflow-x-auto pt-3.5 mt-3.5 border-t border-white/15 pb-1">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </div>
+
+    <!-- Wishlist Loot Grid -->
+    <div id="armoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Cards rendered dynamically -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden brs-frame rounded-2xl p-12 text-center my-6">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-2xl border-2 border-white bg-[#020408] flex items-center justify-center text-cyan-400 text-3xl shadow-[0_0_20px_rgba(0,240,255,0.3)]">
+        ★
+      </div>
+      <h3 class="font-display text-xl font-black text-white tracking-wider uppercase">NO TARGETS DETECTED IN SECTOR</h3>
+      <p class="font-mono text-xs text-slate-400 mt-2 max-w-md mx-auto">
+        Adjust your scanner filters or forge a new equipment drop into the Blueflame Bunny Armory.
+      </p>
+      <button onclick="resetFilters()" class="btn-soul mt-5 px-5 py-2.5 rounded-xl font-display text-xs tracking-wider cursor-pointer">
+        RESET SCANNER FILTERS
+      </button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/30 bg-[#04070f] mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-mono text-slate-400">
+      <div class="flex items-center gap-2">
+        <span class="text-white">★</span>
+        <span>BLUEFLAME BUNNY ARMORY // LOCAL STORAGE: <code class="text-cyan-400">brs_blueflame_bunny_v2</code></span>
+      </div>
+      <div class="text-cyan-300/80">SOUL-FLAME EDITION // ZERO WARM HUES</div>
+    </div>
+    <div class="brs-checker-bar w-full border-t border-white/40"></div>
+  </footer>
+
+  <!-- =====================================================================
+       MODAL 1: ADD / EDIT LOOT ITEM
+       ===================================================================== -->
+  <div id="itemModal" class="fixed inset-0 z-40 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+    <div class="brs-frame rounded-2xl w-full max-w-lg overflow-hidden">
+      <div class="brs-stripes h-2 w-full"></div>
+      <div class="p-5 sm:p-6">
+        <div class="flex items-center justify-between pb-3 border-b border-white/25">
+          <h2 id="itemModalTitle" class="font-display text-lg font-black text-white tracking-wider uppercase flex items-center gap-2">
+            <span class="text-cyan-400">★</span> REGISTER NEW LOOT
+          </h2>
+          <button onclick="closeItemModal()" class="w-8 h-8 rounded-lg border border-white/60 text-white hover:border-cyan-400 hover:text-cyan-400 font-mono font-bold cursor-pointer">✕</button>
+        </div>
+
+        <form id="itemForm" onsubmit="saveItem(event)" class="space-y-4 mt-4">
+          <input type="hidden" id="editItemId" />
+
+          <div>
+            <label class="block font-mono text-[11px] uppercase tracking-wider text-cyan-300 mb-1">EQUIPMENT / LOOT NAME *</label>
+            <input id="itemName" type="text" required placeholder="e.g., Custom Hall-Effect Mechanical Keyboard"
+                   class="w-full px-3.5 py-2.5 rounded-xl bg-[#020408] border border-white/80 text-white font-sans text-sm focus:outline-none focus:border-cyan-400" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wider text-cyan-300 mb-1">MANA COST (<span id="modalCurrLabel">€</span>) *</label>
+              <input id="itemPrice" type="number" step="0.01" min="0" required placeholder="149.99"
+                     class="w-full px-3.5 py-2.5 rounded-xl bg-[#020408] border border-white/80 text-white font-mono text-sm focus:outline-none focus:border-cyan-400" />
+            </div>
+
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wider text-cyan-300 mb-1">ARMORY CATEGORY</label>
+              <select id="itemCategory"
+                      class="w-full px-3.5 py-2.5 rounded-xl bg-[#020408] border border-white/80 text-white font-mono text-xs focus:outline-none focus:border-cyan-400">
+                <option value="Peripherals">Peripherals</option>
+                <option value="Games">Games</option>
+                <option value="Collectibles">Collectibles</option>
+                <option value="Setup">Setup</option>
+                <option value="Apparel">Apparel</option>
+                <option value="Loot">Loot</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-mono text-[11px] uppercase tracking-wider text-cyan-300 mb-1">SOUL-FLAME PRIORITY LEVEL</label>
+            <div class="grid grid-cols-3 gap-2" id="prioritySelector">
+              <button type="button" onclick="selectPriority(1)" data-prio="1" class="prio-opt py-2 rounded-xl border border-white/60 bg-[#020408] font-mono text-xs text-white cursor-pointer">
+                💠 LVL 1 // LOW
+              </button>
+              <button type="button" onclick="selectPriority(2)" data-prio="2" class="prio-opt py-2 rounded-xl border border-white/60 bg-[#020408] font-mono text-xs text-white cursor-pointer">
+                💠💠 LVL 2 // HIGH
+              </button>
+              <button type="button" onclick="selectPriority(3)" data-prio="3" class="prio-opt py-2 rounded-xl border border-white/60 bg-[#020408] font-mono text-xs text-white cursor-pointer">
+                💠💠💠 LVL 3 // MAX
+              </button>
+            </div>
+            <input type="hidden" id="itemPriority" value="3" />
+          </div>
+
+          <div>
+            <label class="block font-mono text-[11px] uppercase tracking-wider text-cyan-300 mb-1">ACQUISITION URL (OPTIONAL)</label>
+            <input id="itemUrl" type="url" placeholder="https://..."
+                   class="w-full px-3.5 py-2.5 rounded-xl bg-[#020408] border border-white/80 text-white font-mono text-xs focus:outline-none focus:border-cyan-400" />
+          </div>
+
+          <div>
+            <label class="block font-mono text-[11px] uppercase tracking-wider text-cyan-300 mb-1">TACTICAL SPECS / NOTES</label>
+            <textarea id="itemNotes" rows="2" placeholder="Colorway, switch type, edition details..."
+                      class="w-full px-3.5 py-2 rounded-xl bg-[#020408] border border-white/80 text-white font-sans text-xs focus:outline-none focus:border-cyan-400"></textarea>
+          </div>
+
+          <div class="flex items-center justify-end gap-2.5 pt-2">
+            <button type="button" onclick="closeItemModal()" class="btn-void px-4 py-2.5 rounded-xl font-mono text-xs font-bold cursor-pointer">CANCEL</button>
+            <button type="submit" class="btn-soul px-5 py-2.5 rounded-xl font-display text-xs tracking-wider cursor-pointer">SAVE TO ARMORY ✦</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL 2: SERVERLESS SHARING, SQUAD MODE & CANVAS PNG STAT CARD
+       ===================================================================== -->
+  <div id="shareModal" class="fixed inset-0 z-40 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+    <div class="brs-frame rounded-2xl w-full max-w-2xl overflow-hidden my-auto">
+      <div class="brs-checker-bar w-full"></div>
+      <div class="p-5 sm:p-6">
+        <div class="flex items-center justify-between pb-3 border-b border-white/25">
+          <h2 class="font-display text-lg font-black text-white tracking-wider uppercase flex items-center gap-2">
+            <span class="text-cyan-400">★</span> SQUAD UPLINK &amp; STAT CARD
+          </h2>
+          <button onclick="closeShareModal()" class="w-8 h-8 rounded-lg border border-white/60 text-white hover:border-cyan-400 hover:text-cyan-400 font-mono font-bold cursor-pointer">✕</button>
+        </div>
+
+        <div class="space-y-4 mt-4">
+          <!-- Serverless Magic Link -->
+          <div class="p-4 rounded-xl bg-[#020408] border border-white/60">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="font-mono text-xs font-bold text-cyan-300 uppercase">1. SERVERLESS MAGIC LINK (#brs=...)</span>
+              <span class="font-mono text-[10px] text-slate-400">ZERO DATABASE REQUIRED</span>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input id="magicLinkInput" type="text" readonly
+                     class="flex-1 px-3 py-2 rounded-lg bg-[#070b14] border border-white/40 text-cyan-200 font-mono text-xs focus:outline-none" />
+              <button onclick="copyMagicLink()" class="btn-soul px-4 py-2 rounded-lg font-display text-xs whitespace-nowrap cursor-pointer">
+                COPY MAGIC LINK
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Actions: Discord Text & Squad View Preview -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button onclick="copyDiscordList()" class="btn-void p-3.5 rounded-xl font-mono text-xs font-bold flex items-center justify-center gap-2 cursor-pointer">
+              <span>◈</span>
+              <span>COPY DISCORD / TEXT LIST</span>
+            </button>
+            <button onclick="toggleSquadPreview()" class="btn-void p-3.5 rounded-xl font-mono text-xs font-bold flex items-center justify-center gap-2 cursor-pointer">
+              <span>★</span>
+              <span>PREVIEW SQUAD / GIFT VIEW</span>
+            </button>
+          </div>
+
+          <!-- HTML5 Canvas PNG Stat Card Preview & Export -->
+          <div class="p-4 rounded-xl bg-[#020408] border border-white/60">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div>
+                <span class="font-mono text-xs font-bold text-cyan-300 uppercase block">2. TACTICAL PNG STAT CARD</span>
+                <span class="font-mono text-[11px] text-slate-400">High-contrast pitch-black, white-star &amp; soul-blue export</span>
+              </div>
+              <button onclick="downloadStatCardPNG()" class="btn-soul px-4 py-2 rounded-lg font-display text-xs cursor-pointer">
+                ↓ DOWNLOAD PNG
+              </button>
+            </div>
+            <div class="rounded-xl overflow-hidden border border-white/50 bg-[#020408] flex justify-center">
+              <canvas id="statCardCanvas" width="900" height="470" class="w-full h-auto max-h-64 object-contain"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Pill (Replaces any alert/confirm) -->
+  <div id="toastBox" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300">
+    <div class="px-4 py-3 rounded-xl bg-[#070b14] border-2 border-cyan-400 text-white font-mono text-xs font-bold shadow-[0_0_24px_rgba(0,240,255,0.5)] flex items-center gap-2.5">
+      <span class="text-cyan-400 text-base">★</span>
+      <span id="toastMessage">SYSTEM UPDATED</span>
+    </div>
+  </div>
+
+  <script>
+    /* =====================================================================
+       STATE & CONFIGURATION (Namespace: brs_blueflame_bunny_v2)
+       ===================================================================== */
+    const STORAGE_KEY = 'brs_blueflame_bunny_v2';
+
+    const CATEGORIES = [
+      { id: 'ALL', label: 'ALL SECTORS' },
+      { id: 'Peripherals', label: 'PERIPHERALS' },
+      { id: 'Games', label: 'GAMES' },
+      { id: 'Collectibles', label: 'COLLECTIBLES' },
+      { id: 'Setup', label: 'SETUP' },
+      { id: 'Apparel', label: 'APPAREL' },
+      { id: 'Loot', label: 'LOOT' }
+    ];
+
+    // Pre-loaded Black Rock Shooter–themed items so the aesthetic shines immediately
+    const DEFAULT_ITEMS = [
+      {
+        id: 'brs-item-1',
+        name: 'Black★Rock Wireless Hall-Effect Keyboard (75%)',
+        price: 189.00,
+        category: 'Peripherals',
+        priority: 3,
+        url: 'https://example.com/brs-keyboard',
+        notes: 'Obsidian anodized aluminum chassis, stark white PBT keycaps, electric cyan underglow.',
+        unlocked: false,
+        claimedBy: ''
+      },
+      {
+        id: 'brs-item-2',
+        name: '1/7 Scale "Insane Soul-Flame" Bunny Statue',
+        price: 245.00,
+        category: 'Collectibles',
+        priority: 3,
+        url: 'https://example.com/brs-figure',
+        notes: 'Translucent soul-blue eye flame effect part with checkered monochrome pedestal.',
+        unlocked: false,
+        claimedBy: ''
+      },
+      {
+        id: 'brs-item-3',
+        name: 'Void-Runner Twin-Tail Oversized Tech Hoodie',
+        price: 98.50,
+        category: 'Apparel',
+        priority: 2,
+        url: 'https://example.com/brs-hoodie',
+        notes: 'Heavyweight jet-black cotton, white bunny ears on hood & white chest star emblem.',
+        unlocked: true,
+        claimedBy: ''
+      },
+      {
+        id: 'brs-item-4',
+        name: 'Abyssal 240Hz OLED Cyber-Monitor Lightbar',
+        price: 115.00,
+        category: 'Setup',
+        priority: 2,
+        url: 'https://example.com/brs-lightbar',
+        notes: 'Asymmetric ice-cyan ambient backlight with wireless rotary puck.',
+        unlocked: false,
+        claimedBy: ''
+      }
+    ];
+
+    let appState = {
+      title: 'BLUEFLAME BUNNY ARMORY',
+      currency: '€',
+      items: []
+    };
+
+    let activeCategory = 'ALL';
+    let isSquadMode = false;
+    let isSquadPreview = false;
+
+    /* =====================================================================
+       CUSTOM MONOCHROME + ELECTRIC SOUL-BLUE SVG ARTWORK PER CATEGORY
+       ===================================================================== */
+    function getCategorySVG(category) {
+      const svgs = {
+        Peripherals: `
+          <svg viewBox="0 0 120 72" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="16" width="76" height="40" rx="6" fill="#050811" stroke="#ffffff" stroke-width="2"/>
+            <g fill="#ffffff">
+              <rect x="14" y="22" width="7" height="6" rx="1"/><rect x="24" y="22" width="7" height="6" rx="1"/>
+              <rect x="34" y="22" width="7" height="6" rx="1"/><rect x="44" y="22" width="7" height="6" rx="1"/>
+              <rect x="54" y="22" width="7" height="6" rx="1"/><rect x="64" y="22" width="14" height="6" rx="1"/>
+              <rect x="14" y="32" width="10" height="6" rx="1"/><rect x="27" y="32" width="7" height="6" rx="1"/>
+              <rect x="37" y="32" width="7" height="6" rx="1"/><rect x="47" y="32" width="7" height="6" rx="1"/>
+              <rect x="57" y="32" width="21" height="6" rx="1"/>
+              <rect x="14" y="42" width="12" height="6" rx="1"/><rect x="29" y="42" width="32" height="6" rx="1" fill="#00f0ff"/>
+              <rect x="64" y="42" width="14" height="6" rx="1"/>
+            </g>
+            <!-- Cyber Mouse -->
+            <rect x="92" y="20" width="20" height="34" rx="10" fill="#050811" stroke="#ffffff" stroke-width="2"/>
+            <line x1="102" y1="20" x2="102" y2="33" stroke="#ffffff" stroke-width="1.5"/>
+            <rect x="100" y="25" width="4" height="7" rx="2" fill="#00f0ff"/>
+          </svg>`,
+        Games: `
+          <svg viewBox="0 0 120 72" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <path d="M26,24 L94,24 C103,24 109,34 106,46 L103,54 C101,59 94,60 90,55 L80,44 L40,44 L30,55 C26,60 19,59 17,54 L14,46 C11,34 17,24 26,24 Z" fill="#050811" stroke="#ffffff" stroke-width="2"/>
+            <path d="M32,30 L32,40 M27,35 L37,35" stroke="#00f0ff" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="84" cy="31" r="2.5" fill="#ffffff"/>
+            <circle cx="91" cy="36" r="2.5" fill="#00f0ff"/>
+            <circle cx="84" cy="41" r="2.5" fill="#ffffff"/>
+            <circle cx="77" cy="36" r="2.5" fill="#0095ff"/>
+            <polygon points="60,29 61.5,33 66,33 62.5,35.5 64,40 60,37.5 56,40 57.5,35.5 54,33 58.5,33" fill="#ffffff"/>
+          </svg>`,
+        Collectibles: `
+          <svg viewBox="0 0 120 72" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <!-- Pedestal -->
+            <ellipse cx="60" cy="60" rx="28" ry="6" fill="#050811" stroke="#ffffff" stroke-width="2"/>
+            <!-- Five-Pointed Star Relic -->
+            <polygon points="60,10 68,28 88,28 72,40 78,58 60,47 42,58 48,40 32,28 52,28" fill="#050811" stroke="#ffffff" stroke-width="2"/>
+            <polygon points="60,18 65,30 77,30 67,37 71,49 60,42 49,49 53,37 43,30 55,30" fill="#00f0ff" opacity="0.85"/>
+            <path d="M84,22 C94,16 102,12 108,6 C100,18 92,24 84,26 Z" fill="#00f0ff"/>
+          </svg>`,
+        Setup: `
+          <svg viewBox="0 0 120 72" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <rect x="22" y="10" width="76" height="44" rx="4" fill="#050811" stroke="#ffffff" stroke-width="2"/>
+            <rect x="27" y="15" width="66" height="34" fill="#070b14" stroke="#00f0ff" stroke-width="1.2"/>
+            <polygon points="60,21 63,29 71,29 64.5,34 67,42 60,37 53,42 55.5,34 49,29 57,29" fill="#ffffff"/>
+            <path d="M54,54 L66,54 L70,63 L50,63 Z" fill="#ffffff"/>
+            <line x1="40" y1="63" x2="80" y2="63" stroke="#00f0ff" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>`,
+        Apparel: `
+          <svg viewBox="0 0 120 72" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <!-- Bunny Ears on Hood -->
+            <path d="M52,18 L47,5 L56,16 Z" fill="#ffffff"/>
+            <path d="M68,18 L73,5 L64,16 Z" fill="#ffffff"/>
+            <!-- Tactical Jacket -->
+            <path d="M44,18 L76,18 L92,32 L84,41 L75,34 L75,62 L45,62 L45,34 L36,41 L28,32 Z" fill="#050811" stroke="#ffffff" stroke-width="2"/>
+            <line x1="60" y1="22" x2="60" y2="62" stroke="#00f0ff" stroke-width="1.8"/>
+            <polygon points="68,32 70,36 74,36 71,38.5 72,42 68,40 64,42 65,38.5 62,36 66,36" fill="#ffffff"/>
+          </svg>`,
+        Loot: `
+          <svg viewBox="0 0 120 72" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="22" width="60" height="38" rx="4" fill="#050811" stroke="#ffffff" stroke-width="2"/>
+            <line x1="30" y1="35" x2="90" y2="35" stroke="#ffffff" stroke-width="2"/>
+            <rect x="54" y="30" width="12" height="10" rx="2" fill="#00f0ff" stroke="#ffffff" stroke-width="1.5"/>
+            <path d="M44,22 L48,14 L72,14 L76,22" fill="none" stroke="#00f0ff" stroke-width="2"/>
+          </svg>`
+      };
+      return svgs[category] || svgs.Loot;
+    }
+
+    /* =====================================================================
+       SOUL-BLUE PARTICLE ENGINE (Ambient Embers + Unlock Explosion)
+       ===================================================================== */
+    const particleCanvas = document.getElementById('soulParticleCanvas');
+    const pCtx = particleCanvas.getContext('2d');
+    let particles = [];
+
+    function resizeParticleCanvas() {
+      particleCanvas.width = window.innerWidth;
+      particleCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeParticleCanvas);
+    resizeParticleCanvas();
+
+    function spawnAmbientParticle() {
+      if (particles.length > 55) return;
+      particles.push({
+        x: Math.random() * particleCanvas.width,
+        y: particleCanvas.height + 10,
+        vx: (Math.random() - 0.5) * 0.7,
+        vy: -(0.6 + Math.random() * 1.4),
+        size: 1.5 + Math.random() * 2.5,
+        alpha: 0.4 + Math.random() * 0.5,
+        life: 160 + Math.random() * 120,
+        maxLife: 280,
+        color: Math.random() > 0.35 ? '#00f0ff' : '#0095ff',
+        isStar: Math.random() > 0.85
+      });
+    }
+
+    function triggerSoulFlameBurst(x, y) {
+      const palette = ['#00f0ff', '#0095ff', '#38bdf8', '#e0f7ff', '#ffffff'];
+      for (let i = 0; i < 42; i++) {
+        const angle = (Math.PI * 2 * i) / 42 + (Math.random() - 0.5) * 0.3;
+        const speed = 2.2 + Math.random() * 6.5;
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 1.5,
+          size: 2.5 + Math.random() * 4,
+          alpha: 1,
+          life: 45 + Math.random() * 25,
+          maxLife: 70,
+          color: palette[Math.floor(Math.random() * palette.length)],
+          isStar: i % 5 === 0
+        });
+      }
+    }
+
+    function drawMiniStar(ctx, x, y, r, color, alpha) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      for (let i = 0; i < 5; i++) {
+        const outerA = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+        const innerA = outerA + Math.PI / 5;
+        ctx.lineTo(x + Math.cos(outerA) * r, y + Math.sin(outerA) * r);
+        ctx.lineTo(x + Math.cos(innerA) * (r * 0.42), y + Math.sin(innerA) * (r * 0.42));
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function animateSoulParticles() {
+      pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+      if (Math.random() < 0.32) spawnAmbientParticle();
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life--;
+        const ratio = Math.max(0, p.life / p.maxLife);
+
+        if (p.isStar) {
+          drawMiniStar(pCtx, p.x, p.y, p.size * 1.8, p.color, p.alpha * ratio);
+        } else {
+          pCtx.save();
+          pCtx.globalAlpha = p.alpha * ratio;
+          pCtx.fillStyle = p.color;
+          pCtx.shadowColor = '#00f0ff';
+          pCtx.shadowBlur = 10;
+          pCtx.beginPath();
+          pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          pCtx.fill();
+          pCtx.restore();
+        }
+
+        if (p.life <= 0 || p.y < -20) {
+          particles.splice(i, 1);
+        }
+      }
+      requestAnimationFrame(animateSoulParticles);
+    }
+
+    /* =====================================================================
+       PERSISTENCE & SERVERLESS URL HASH (#brs=...)
+       ===================================================================== */
+    function encodeStateToHash(stateObj) {
+      const compact = {
+        t: stateObj.title,
+        c: stateObj.currency,
+        i: stateObj.items.map(it => ({
+          id: it.id,
+          n: it.name,
+          p: it.price,
+          cat: it.category,
+          pr: it.priority,
+          u: it.url || '',
+          nt: it.notes || '',
+          un: it.unlocked ? 1 : 0,
+          cb: it.claimedBy || ''
+        }))
+      };
+      const jsonStr = JSON.stringify(compact);
+      return btoa(unescape(encodeURIComponent(jsonStr)));
+    }
+
+    function decodeHashToState(hashPayload) {
+      try {
+        const jsonStr = decodeURIComponent(escape(atob(hashPayload)));
+        const parsed = JSON.parse(jsonStr);
+        return {
+          title: parsed.t || 'BLUEFLAME BUNNY ARMORY',
+          currency: parsed.c || '€',
+          items: Array.isArray(parsed.i) ? parsed.i.map((it, idx) => ({
+            id: it.id || `brs-shared-${idx}`,
+            name: it.n || 'Unnamed Loot',
+            price: Number(it.p) || 0,
+            category: it.cat || 'Loot',
+            priority: Number(it.pr) || 2,
+            url: it.u || '',
+            notes: it.nt || '',
+            unlocked: Boolean(it.un),
+            claimedBy: it.cb || ''
+          })) : []
+        };
+      } catch (err) {
+        console.error('Failed to decode BRS hash:', err);
+        return null;
+      }
+    }
+
+    function loadInitialState() {
+      const params = new URLSearchParams(window.location.search);
+      const hash = window.location.hash;
+
+      if (hash && hash.startsWith('#brs=')) {
+        const decoded = decodeHashToState(hash.slice(5));
+        if (decoded) {
+          appState = decoded;
+          isSquadMode = true;
+          return;
+        }
+      }
+
+      if (params.get('squad') === '1') {
+        isSquadMode = true;
+      }
+
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && Array.isArray(parsed.items)) {
+            appState = parsed;
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('Storage read fallback:', e);
+      }
+
+      // First visit: populate default Black Rock Shooter items
+      appState = {
+        title: 'BLUEFLAME BUNNY ARMORY',
+        currency: '€',
+        items: structuredClone ? structuredClone(DEFAULT_ITEMS) : JSON.parse(JSON.stringify(DEFAULT_ITEMS))
+      };
+      saveState();
+    }
+
+    function saveState() {
+      if (isSquadMode && !isSquadPreview) return;
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.error('Failed to persist state:', e);
+      }
+    }
+
+    /* =====================================================================
+       UI RENDERING & INTERACTIONS
+       ===================================================================== */
+    function formatMoney(amount) {
+      return `${appState.currency}${Number(amount || 0).toFixed(2)}`;
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toastBox');
+      document.getElementById('toastMessage').textContent = msg;
+      box.classList.remove('opacity-0', 'translate-y-3');
+      box.classList.add('opacity-100', 'translate-y-0');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        box.classList.remove('opacity-100', 'translate-y-0');
+        box.classList.add('opacity-0', 'translate-y-3');
+      }, 2800);
+    }
+
+    function applyModeUI() {
+      const activeSquad = isSquadMode || isSquadPreview;
+      const banner = document.getElementById('squadBanner');
+      const btnAdd = document.getElementById('btnAddLoot');
+      const backupCtrl = document.getElementById('backupControls');
+      const titleEl = document.getElementById('armoryTitleDisplay');
+      const exitBtn = document.getElementById('btnExitSquadPreview');
+
+      if (activeSquad) {
+        banner.classList.remove('hidden');
+        btnAdd.classList.add('hidden');
+        backupCtrl.classList.add('hidden');
+        titleEl.contentEditable = 'false';
+        if (isSquadPreview) {
+          exitBtn.classList.remove('hidden');
+        } else {
+          exitBtn.classList.add('hidden');
+        }
+      } else {
+        banner.classList.add('hidden');
+        btnAdd.classList.remove('hidden');
+        backupCtrl.classList.remove('hidden');
+        titleEl.contentEditable = 'true';
+      }
+    }
+
+    function updateCurrencyButtons() {
+      document.querySelectorAll('.curr-btn').forEach(btn => {
+        if (btn.dataset.curr === appState.currency) {
+          btn.className = 'curr-btn px-2.5 py-1 rounded-lg font-mono text-xs font-black bg-cyan-400 text-slate-950 shadow-[0_0_10px_#00f0ff] cursor-pointer';
+        } else {
+          btn.className = 'curr-btn px-2.5 py-1 rounded-lg font-mono text-xs font-bold text-slate-300 hover:text-cyan-300 cursor-pointer';
+        }
+      });
+    }
+
+    function setCurrency(curr) {
+      appState.currency = curr;
+      saveState();
+      updateCurrencyButtons();
+      renderArmory();
+      showToast(`CURRENCY SWITCHED TO ${curr}`);
+    }
+
+    function renderCategoryTabs() {
+      const container = document.getElementById('categoryTabs');
+      container.innerHTML = CATEGORIES.map(cat => {
+        const count = cat.id === 'ALL'
+          ? appState.items.length
+          : appState.items.filter(i => i.category === cat.id).length;
+        const isActive = activeCategory === cat.id;
+        return `
+          <button onclick="setCategory('${cat.id}')"
+                  class="px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold whitespace-nowrap border transition cursor-pointer flex items-center gap-1.5 ${
+                    isActive
+                      ? 'bg-cyan-400 text-slate-950 border-white shadow-[0_0_14px_rgba(0,240,255,0.5)]'
+                      : 'bg-[#020408] text-slate-300 border-white/40 hover:border-cyan-400 hover:text-cyan-300'
+                  }">
+            <span>${cat.label}</span>
+            <span class="px-1.5 py-0.2 rounded text-[10px] ${isActive ? 'bg-slate-950 text-cyan-300' : 'bg-white/10 text-white'}">${count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function setCategory(catId) {
+      activeCategory = catId;
+      renderCategoryTabs();
+      renderArmory();
+    }
+
+    function updateHUD() {
+      const total = appState.items.length;
+      const unlockedItems = appState.items.filter(i => i.unlocked);
+      const totalCost = appState.items.reduce((sum, i) => sum + Number(i.price || 0), 0);
+      const remainingCost = appState.items
+        .filter(i => !i.unlocked)
+        .reduce((sum, i) => sum + Number(i.price || 0), 0);
+      const maxPrioCount = appState.items.filter(i => Number(i.priority) === 3 && !i.unlocked).length;
+      const pct = total > 0 ? Math.round((unlockedItems.length / total) * 100) : 0;
+
+      document.getElementById('hudTotalItems').textContent = total;
+      document.getElementById('hudTotalCost').textContent = formatMoney(totalCost);
+      document.getElementById('hudRemainingCost').textContent = `REMAINING: ${formatMoney(remainingCost)}`;
+      document.getElementById('hudUnlockedCount').textContent = `${unlockedItems.length} / ${total}`;
+      document.getElementById('hudProgressBar').style.width = `${pct}%`;
+      document.getElementById('hudTopPriority').textContent = `${maxPrioCount} MAX`;
+    }
+
+    function renderPriorityFlames(priority) {
+      const lvl = Number(priority) || 1;
+      let html = '';
+      for (let i = 1; i <= 3; i++) {
+        if (i <= lvl) {
+          html += `<span class="text-cyan-400 drop-shadow-[0_0_6px_#00f0ff]" title="Soul Priority ${lvl}/3">💠</span>`;
+        } else {
+          html += `<span class="text-slate-700">◇</span>`;
+        }
+      }
+      return html;
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function renderArmory() {
+      updateHUD();
+      renderCategoryTabs();
+
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const statusFilter = document.getElementById('statusFilter').value;
+      const sortBy = document.getElementById('sortSelect').value;
+      const activeSquad = isSquadMode || isSquadPreview;
+
+      let filtered = appState.items.filter(item => {
+        const matchesCat = activeCategory === 'ALL' || item.category === activeCategory;
+        const matchesQuery = !query ||
+          item.name.toLowerCase().includes(query) ||
+          (item.notes && item.notes.toLowerCase().includes(query));
+        const matchesStatus =
+          statusFilter === 'all' ||
+          (statusFilter === 'unlocked' && item.unlocked) ||
+          (statusFilter === 'locked' && !item.unlocked);
+        return matchesCat && matchesQuery && matchesStatus;
+      });
+
+      filtered.sort((a, b) => {
+        if (sortBy === 'priority') return (b.priority - a.priority) || (a.unlocked - b.unlocked);
+        if (sortBy === 'price-desc') return b.price - a.price;
+        if (sortBy === 'price-asc') return a.price - b.price;
+        return 0;
+      });
+
+      const grid = document.getElementById('armoryGrid');
+      const emptyState = document.getElementById('emptyState');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      grid.innerHTML = filtered.map(item => {
+        const safeName = escapeHtml(item.name);
+        const safeNotes = escapeHtml(item.notes);
+        const safeCat = escapeHtml(item.category);
+        const isClaimed = Boolean(item.claimedBy);
+
+        return `
+          <article class="brs-card ${item.unlocked ? 'unlocked-card' : ''} rounded-2xl p-4 sm:p-5 flex flex-col justify-between relative overflow-hidden">
+            <!-- Top Status Strip -->
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-2.5 py-1 rounded-lg bg-white text-slate-950 font-mono text-[10px] font-black uppercase tracking-wider">
+                  ★ ${safeCat}
+                </span>
+                <div class="flex items-center gap-1 text-xs font-mono">
+                  ${renderPriorityFlames(item.priority)}
+                </div>
+              </div>
+
+              <!-- Custom Monochrome + Soul-Blue Category Vector Artwork -->
+              <div class="h-20 rounded-xl bg-[#020408] border border-white/30 mb-3.5 p-2 flex items-center justify-center relative overflow-hidden">
+                ${getCategorySVG(item.category)}
+                ${item.unlocked ? `
+                  <div class="absolute inset-0 bg-cyan-400/15 backdrop-blur-[1px] flex items-center justify-center">
+                    <span class="px-3 py-1 rounded-lg bg-cyan-400 text-slate-950 border-2 border-white font-display text-xs font-black tracking-widest shadow-[0_0_16px_#00f0ff]">
+                      UNLOCKED ✦
+                    </span>
+                  </div>
+                ` : ''}
+                ${isClaimed && !item.unlocked ? `
+                  <div class="absolute top-1.5 right-1.5 px-2 py-0.5 rounded bg-cyan-400 text-slate-950 font-mono text-[10px] font-black">
+                    CLAIMED ✦
+                  </div>
+                ` : ''}
+              </div>
+
+              <!-- Item Title & Price -->
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="font-display text-sm sm:text-base font-bold text-white leading-snug ${item.unlocked ? 'line-through decoration-cyan-400 text-cyan-100' : ''}">
+                  ${safeName}
+                </h3>
+                <span class="font-mono text-base sm:text-lg font-extrabold text-cyan-300 shrink-0 drop-shadow-[0_0_8px_rgba(0,240,255,0.35)]">
+                  ${formatMoney(item.price)}
+                </span>
+              </div>
+
+              <!-- Tactical Notes -->
+              ${safeNotes ? `
+                <p class="font-sans text-xs text-slate-300/90 mt-2 line-clamp-2 leading-relaxed">
+                  ${safeNotes}
+                </p>
+              ` : ''}
+            </div>
+
+            <!-- Bottom Action Bar -->
+            <div class="pt-4 mt-4 border-t border-white/15 flex items-center justify-between gap-2">
+              ${activeSquad ? `
+                <button onclick="claimDrop('${item.id}', event)"
+                        class="flex-1 py-2 px-3 rounded-xl font-display text-xs font-black tracking-wider cursor-pointer transition ${
+                          isClaimed || item.unlocked
+                            ? 'bg-cyan-400/20 text-cyan-300 border border-cyan-400'
+                            : 'btn-soul'
+                        }">
+                  ${item.unlocked ? 'ALREADY UNLOCKED ✦' : (isClaimed ? 'DROP CLAIMED ✦' : 'CLAIM DROP ✦')}
+                </button>
+              ` : `
+                <button onclick="toggleUnlock('${item.id}', event)"
+                        class="flex-1 py-2 px-3 rounded-xl font-display text-xs font-black tracking-wider cursor-pointer transition ${
+                          item.unlocked
+                            ? 'bg-cyan-400 text-slate-950 border border-white shadow-[0_0_14px_#00f0ff]'
+                            : 'btn-void'
+                        }">
+                  ${item.unlocked ? 'UNLOCKED ✦' : 'MARK UNLOCKED ✦'}
+                </button>
+              `}
+
+              <div class="flex items-center gap-1.5">
+                ${item.url ? `
+                  <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer"
+                     title="Open Target Link"
+                     class="w-9 h-9 rounded-xl btn-void flex items-center justify-center font-mono text-xs font-bold">
+                    ↗
+                  </a>
+                ` : ''}
+
+                ${!activeSquad ? `
+                  <button onclick="openItemModal('${item.id}')" title="Edit Loot"
+                          class="w-9 h-9 rounded-xl btn-void flex items-center justify-center font-mono text-xs cursor-pointer">
+                    ✎
+                  </button>
+                  <button onclick="deleteItem('${item.id}')" title="Purge Loot"
+                          class="w-9 h-9 rounded-xl btn-void flex items-center justify-center font-mono text-xs cursor-pointer">
+                    ✕
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    /* =====================================================================
+       CRUD & UNLOCK SOUL-FLAME BURST ACTIONS
+       ===================================================================== */
+    function toggleUnlock(id, event) {
+      const item = appState.items.find(i => i.id === id);
+      if (!item) return;
+      item.unlocked = !item.unlocked;
+      saveState();
+      renderArmory();
+
+      if (item.unlocked) {
+        const rect = event?.currentTarget?.getBoundingClientRect();
+        const cx = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
+        const cy = rect ? rect.top + rect.height / 2 : window.innerHeight / 2;
+        triggerSoulFlameBurst(cx, cy);
+        showToast(`UNLOCKED ✦ ${item.name.toUpperCase()}`);
+      } else {
+        showToast(`RE-LOCKED TARGET: ${item.name.toUpperCase()}`);
+      }
+    }
+
+    function claimDrop(id, event) {
+      const item = appState.items.find(i => i.id === id);
+      if (!item || item.unlocked) return;
+      item.claimedBy = item.claimedBy ? '' : 'Squad Ally';
+      renderArmory();
+      if (item.claimedBy) {
+        const rect = event?.currentTarget?.getBoundingClientRect();
+        if (rect) triggerSoulFlameBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        showToast(`DROP CLAIMED ✦ ${item.name.toUpperCase()}`);
+      } else {
+        showToast(`DROP RELEASED: ${item.name.toUpperCase()}`);
+      }
+    }
+
+    function deleteItem(id) {
+      appState.items = appState.items.filter(i => i.id !== id);
+      saveState();
+      renderArmory();
+      showToast('TARGET PURGED FROM ARMORY');
+    }
+
+    function resetFilters() {
+      activeCategory = 'ALL';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('statusFilter').value = 'all';
+      renderArmory();
+    }
+
+    /* =====================================================================
+       ADD / EDIT MODAL LOGIC
+       ===================================================================== */
+    function selectPriority(lvl) {
+      document.getElementById('itemPriority').value = lvl;
+      document.querySelectorAll('.prio-opt').forEach(btn => {
+        if (Number(btn.dataset.prio) === Number(lvl)) {
+          btn.className = 'prio-opt py-2 rounded-xl border-2 border-white bg-cyan-400 text-slate-950 font-mono text-xs font-black shadow-[0_0_12px_#00f0ff] cursor-pointer';
+        } else {
+          btn.className = 'prio-opt py-2 rounded-xl border border-white/50 bg-[#020408] font-mono text-xs text-slate-300 cursor-pointer';
+        }
+      });
+    }
+
+    function openItemModal(editId = null) {
+      const modal = document.getElementById('itemModal');
+      document.getElementById('modalCurrLabel').textContent = appState.currency;
+
+      if (editId) {
+        const item = appState.items.find(i => i.id === editId);
+        if (!item) return;
+        document.getElementById('itemModalTitle').innerHTML = '<span class="text-cyan-400">★</span> MODIFY ARMORY DROP';
+        document.getElementById('editItemId').value = item.id;
+        document.getElementById('itemName').value = item.name;
+        document.getElementById('itemPrice').value = item.price;
+        document.getElementById('itemCategory').value = item.category;
+        document.getElementById('itemUrl').value = item.url || '';
+        document.getElementById('itemNotes').value = item.notes || '';
+        selectPriority(item.priority || 2);
+      } else {
+        document.getElementById('itemModalTitle').innerHTML = '<span class="text-cyan-400">★</span> REGISTER NEW LOOT';
+        document.getElementById('itemForm').reset();
+        document.getElementById('editItemId').value = '';
+        selectPriority(3);
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeItemModal() {
+      const modal = document.getElementById('itemModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function saveItem(event) {
+      event.preventDefault();
+      const editId = document.getElementById('editItemId').value;
+      const payload = {
+        name: document.getElementById('itemName').value.trim(),
+        price: parseFloat(document.getElementById('itemPrice').value) || 0,
+        category: document.getElementById('itemCategory').value,
+        priority: parseInt(document.getElementById('itemPriority').value, 10) || 2,
+        url: document.getElementById('itemUrl').value.trim(),
+        notes: document.getElementById('itemNotes').value.trim()
+      };
+
+      if (editId) {
+        const idx = appState.items.findIndex(i => i.id === editId);
+        if (idx !== -1) {
+          appState.items[idx] = { ...appState.items[idx], ...payload };
+          showToast('ARMORY DROP UPDATED ✦');
+        }
+      } else {
+        appState.items.unshift({
+          id: `brs-${Date.now()}`,
+          ...payload,
+          unlocked: false,
+          claimedBy: ''
+        });
+        showToast('NEW LOOT FORGED INTO ARMORY ✦');
+      }
+
+      saveState();
+      closeItemModal();
+      renderArmory();
+    }
+
+    /* =====================================================================
+       JSON BACKUP EXPORT / IMPORT
+       ===================================================================== */
+    function exportJSON() {
+      const dataStr = JSON.stringify(appState, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'blueflame-bunny-armory-backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('JSON BACKUP EXPORTED');
+    }
+
+    function importJSON(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && Array.isArray(parsed.items)) {
+            appState = {
+              title: parsed.title || 'BLUEFLAME BUNNY ARMORY',
+              currency: parsed.currency || '€',
+              items: parsed.items
+            };
+            document.getElementById('armoryTitleDisplay').textContent = appState.title;
+            saveState();
+            updateCurrencyButtons();
+            renderArmory();
+            showToast('ARMORY BACKUP RESTORED ✦');
+          } else {
+            showToast('INVALID ARMORY JSON FILE');
+          }
+        } catch (err) {
+          showToast('CORRUPT JSON PAYLOAD');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    /* =====================================================================
+       SERVERLESS SHARING, SQUAD MODE & PNG STAT CARD GENERATOR
+       ===================================================================== */
+    function buildMagicLink() {
+      const baseUrl = window.location.href.split('#')[0].split('?')[0];
+      const encoded = encodeStateToHash(appState);
+      return `${baseUrl}?squad=1#brs=${encoded}`;
+    }
+
+    function openShareModal() {
+      document.getElementById('magicLinkInput').value = buildMagicLink();
+      renderStatCardCanvas();
+      const modal = document.getElementById('shareModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeShareModal() {
+      const modal = document.getElementById('shareModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyTextFallback(text, successMsg) {
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+      showToast(successMsg);
+    }
+
+    function copyMagicLink() {
+      const link = document.getElementById('magicLinkInput').value;
+      copyTextFallback(link, 'MAGIC LINK COPIED TO CLIPBOARD ✦');
+    }
+
+    function copyDiscordList() {
+      const lines = [
+        `★ **${appState.title}** ★`,
+        `──────────────────────────────`,
+        ...appState.items.map(it => {
+          const status = it.unlocked ? '[UNLOCKED ✦]' : '[LOCKED]';
+          const flames = '💠'.repeat(it.priority || 1);
+          return `${status} **${it.name}** — \`${formatMoney(it.price)}\` (${it.category}) ${flames}`;
+        }),
+        `──────────────────────────────`,
+        `🔗 Squad Link: ${buildMagicLink()}`
+      ];
+      copyTextFallback(lines.join('\n'), 'DISCORD LIST COPIED ✦');
+    }
+
+    function toggleSquadPreview() {
+      isSquadPreview = true;
+      closeShareModal();
+      applyModeUI();
+      renderArmory();
+      showToast('SQUAD RECON PREVIEW ACTIVE');
+    }
+
+    function exitSquadPreview() {
+      isSquadPreview = false;
+      applyModeUI();
+      renderArmory();
+      showToast('RETURNED TO COMMANDER MODE');
+    }
+
+    function cloneSharedToMyArmory() {
+      isSquadMode = false;
+      isSquadPreview = false;
+      history.replaceState(null, '', window.location.pathname);
+      saveState();
+      applyModeUI();
+      renderArmory();
+      triggerSoulFlameBurst(window.innerWidth / 2, 120);
+      showToast('CLONED TO YOUR LOCAL ARMORY ✦');
+    }
+
+    /* =====================================================================
+       HTML5 CANVAS STAT CARD GENERATOR (Strict Pitch-Black, White & Soul-Blue)
+       ===================================================================== */
+    function drawCanvasStar(ctx, cx, cy, spikes, outerR, innerR, fillStyle) {
+      let rot = (Math.PI / 2) * 3;
+      let x = cx;
+      let y = cy;
+      const step = Math.PI / spikes;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - outerR);
+      for (let i = 0; i < spikes; i++) {
+        x = cx + Math.cos(rot) * outerR;
+        y = cy + Math.sin(rot) * outerR;
+        ctx.lineTo(x, y);
+        rot += step;
+
+        x = cx + Math.cos(rot) * innerR;
+        y = cy + Math.sin(rot) * innerR;
+        ctx.lineTo(x, y);
+        rot += step;
+      }
+      ctx.lineTo(cx, cy - outerR);
+      ctx.closePath();
+      ctx.fillStyle = fillStyle;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function renderStatCardCanvas() {
+      const canvas = document.getElementById('statCardCanvas');
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+
+      // 1. Pitch-Black / Deep Obsidian Void Background
+      ctx.fillStyle = '#020408';
+      ctx.fillRect(0, 0, W, H);
+
+      // Subtle Cyan Radial Glow
+      const grad = ctx.createRadialGradient(170, 170, 10, 170, 170, 340);
+      grad.addColorStop(0, 'rgba(0, 240, 255, 0.22)');
+      grad.addColorStop(0.6, 'rgba(0, 149, 255, 0.08)');
+      grad.addColorStop(1, 'rgba(2, 4, 8, 0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Tactical Grid Lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx < W; gx += 36) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+      }
+      for (let gy = 0; gy < H; gy += 36) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+      }
+
+      // Top & Bottom Monochrome Checkered Strips
+      const sq = 12;
+      for (let x = 0; x < W; x += sq) {
+        ctx.fillStyle = (x / sq) % 2 === 0 ? '#ffffff' : '#020408';
+        ctx.fillRect(x, 0, sq, sq);
+        ctx.fillStyle = (x / sq) % 2 === 1 ? '#ffffff' : '#020408';
+        ctx.fillRect(x, H - sq, sq, sq);
+      }
+
+      // Stark White Outer Frame
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(18, 22, W - 36, H - 44);
+
+      // Decorative Giant Watermark Star
+      drawCanvasStar(ctx, 760, 235, 5, 130, 52, 'rgba(255, 255, 255, 0.05)');
+
+      // Left Emblem Box + Soul-Blue Flame Star
+      ctx.fillStyle = '#070b14';
+      ctx.fillRect(44, 52, 136, 136);
+      ctx.strokeStyle = '#00f0ff';
+      ctx.lineWidth = 2.5;
+      ctx.strokeRect(44, 52, 136, 136);
+
+      ctx.save();
+      ctx.shadowColor = '#00f0ff';
+      ctx.shadowBlur = 24;
+      drawCanvasStar(ctx, 112, 120, 5, 46, 19, '#ffffff');
+      drawCanvasStar(ctx, 112, 120, 5, 24, 10, '#00f0ff');
+      ctx.restore();
+
+      // Header Typography
+      ctx.fillStyle = '#00f0ff';
+      ctx.font = 'bold 14px "JetBrains Mono", monospace';
+      ctx.fillText('SYS.UNIT // BRS-00 // SOUL-FLAME ARMORY MANIFEST', 206, 74);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 32px "Orbitron", sans-serif';
+      const displayTitle = appState.title.slice(0, 26).toUpperCase();
+      ctx.fillText(displayTitle, 206, 115);
+
+      // Stat Pills
+      const total = appState.items.length;
+      const unlocked = appState.items.filter(i => i.unlocked).length;
+      const totalCost = appState.items.reduce((s, i) => s + Number(i.price || 0), 0);
+
+      const stats = [
+        { label: 'TOTAL LOOT', val: `${total} ITEMS` },
+        { label: 'EST. MANA', val: formatMoney(totalCost) },
+        { label: 'UNLOCKED', val: `${unlocked} / ${total}` }
+      ];
+
+      stats.forEach((st, idx) => {
+        const bx = 206 + idx * 218;
+        ctx.fillStyle = '#070b14';
+        ctx.fillRect(bx, 134, 202, 54);
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(bx, 134, 202, 54);
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 11px "JetBrains Mono", monospace';
+        ctx.fillText(st.label, bx + 12, 154);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 20px "Orbitron", sans-serif';
+        ctx.fillText(st.val, bx + 12, 178);
+      });
+
+      // Top Priority Items List
+      ctx.fillStyle = '#00f0ff';
+      ctx.font = 'bold 13px "JetBrains Mono", monospace';
+      ctx.fillText('★ PRIORITY TARGETS //', 44, 224);
+
+      const previewItems = appState.items.slice(0, 4);
+      previewItems.forEach((it, idx) => {
+        const ry = 242 + idx * 46;
+        ctx.fillStyle = it.unlocked ? 'rgba(0, 240, 255, 0.14)' : '#070b14';
+        ctx.fillRect(44, ry, W - 88, 38);
+        ctx.strokeStyle = it.unlocked ? '#00f0ff' : 'rgba(255,255,255,0.45)';
+        ctx.lineWidth = 1.2;
+        ctx.strokeRect(44, ry, W - 88, 38);
+
+        ctx.fillStyle = it.unlocked ? '#00f0ff' : '#ffffff';
+        ctx.font = 'bold 14px "JetBrains Mono", monospace';
+        const tag = it.unlocked ? '[UNLOCKED ✦]' : `[LVL ${it.priority}]`;
+        ctx.fillText(tag, 58, ry + 24);
+
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = '600 15px "Inter", sans-serif';
+        ctx.fillText(it.name.slice(0, 44), 185, ry + 24);
+
+        ctx.fillStyle = '#00f0ff';
+        ctx.font = 'bold 16px "JetBrains Mono", monospace';
+        ctx.textAlign = 'right';
+        ctx.fillText(formatMoney(it.price), W - 60, ry + 24);
+        ctx.textAlign = 'left';
+      });
+    }
+
+    function downloadStatCardPNG() {
+      renderStatCardCanvas();
+      const canvas = document.getElementById('statCardCanvas');
+      const link = document.createElement('a');
+      link.download = 'blueflame-bunny-armory.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('EXPORTED blueflame-bunny-armory.png ✦');
+    }
+
+    /* =====================================================================
+       INITIALIZATION
+       ===================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      loadInitialState();
+
+      const titleEl = document.getElementById('armoryTitleDisplay');
+      titleEl.textContent = appState.title;
+
+      titleEl.addEventListener('blur', () => {
+        const cleaned = titleEl.textContent.trim() || 'BLUEFLAME BUNNY ARMORY';
+        titleEl.textContent = cleaned;
+        appState.title = cleaned;
+        saveState();
+      });
+
+      titleEl.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          titleEl.blur();
+        }
+      });
+
+      updateCurrencyButtons();
+      applyModeUI();
+      renderArmory();
+      animateSoulParticles();
+    });
+  </script>
+</body>
+</html>
